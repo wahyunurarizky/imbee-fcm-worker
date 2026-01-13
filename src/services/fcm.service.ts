@@ -1,12 +1,14 @@
-import admin from '../config/firebase';
+import { getFirebase } from '../config/firebase';
 
 export async function sendFCM(deviceId: string, text: string) {
   if (process.env.MOCK_FCM === 'true') {
-    console.log('[MOCK] FCM sent to', deviceId);
+    console.log('[MOCK_FCM] FCM sent to', deviceId);
     return;
   }
 
-  return admin.messaging().send({
+  const firebase = getFirebase();
+
+  return firebase.messaging().send({
     token: deviceId,
     notification: {
       title: 'Incoming message',
